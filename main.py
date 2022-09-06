@@ -23,13 +23,14 @@ def pokemonImageResizing(image_name: str) -> Image:
     width = bounding_box[2] - bounding_box[0]
     height = bounding_box[3] - bounding_box[1]
     difference = int(abs(width - height) / 2)
+    x0, y0, x1, y1 = bounding_box
     if width > height:
-        bounding_box[3] += difference
-        bounding_box[1] -= difference
+        y1 += (difference + 2)
+        y0 -= (difference - 2)
     elif width < height:
-        bounding_box[2] += difference
-        bounding_box[0] -= difference
-    image = image.crop(bounding_box)
+        x1 += (difference + 2)
+        x0 -= (difference - 2)
+    image = image.crop((x0, y0, x1, y1))
 
     return image.resize((64, 64)).convert('RGB')
 
