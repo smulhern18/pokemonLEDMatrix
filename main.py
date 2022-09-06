@@ -23,6 +23,7 @@ options.cols = 64
 options.chain_length = 2
 options.pixel_mapper_config = 'Rotate:90'
 options.drop_privileges = False
+options.gpio_slowdown = 0
 
 matrix = RGBMatrix(options = options)
 
