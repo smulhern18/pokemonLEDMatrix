@@ -22,6 +22,7 @@ options.rows = 64
 options.cols = 64
 options.chain_length = 2
 options.pixel_mapper_config = 'Rotate:90'
+options.drop_privileges = False
 
 matrix = RGBMatrix(options = options)
 
@@ -29,7 +30,6 @@ matrix = RGBMatrix(options = options)
 offscreen_canvas = matrix.CreateFrameCanvas()
 font = graphics.Font()
 font.LoadFont("./Anonymous_Pro.tff")
-font.height = 12
 textColor = graphics.Color(255, 255, 255)
 
 try:
