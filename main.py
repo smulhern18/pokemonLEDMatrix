@@ -23,7 +23,7 @@ options.cols = 64
 options.chain_length = 2
 options.pixel_mapper_config = 'Rotate:90'
 options.drop_privileges = False
-options.limit_refresh = 120
+options.limit_refresh_rate_hz = 120
 
 matrix = RGBMatrix(options=options)
 
