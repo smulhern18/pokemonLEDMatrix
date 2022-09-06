@@ -29,7 +29,7 @@ matrix = RGBMatrix(options = options)
 
 offscreen_canvas = matrix.CreateFrameCanvas()
 font = graphics.Font()
-font.LoadFont("./Anonymous_Pro.tff")
+font.LoadFont("./Anonymous_Pro.ttf")
 textColor = graphics.Color(255, 255, 255)
 
 try:
