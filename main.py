@@ -17,6 +17,23 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 from databaseHandler import pull_random_pokemon, pull_picture
 
 
+def pokemonImageResizing(image_name: str) -> Image:
+    image = Image.open(io.BytesIO(pull_picture(image_name))).resize((64, 64))
+    bounding_box = image.getbbox()
+    width = bounding_box[2] - bounding_box[0]
+    height = bounding_box[3] - bounding_box[1]
+    difference = int(abs(width - height) / 2)
+    if width > height:
+        bounding_box[3] += difference
+        bounding_box[1] -= difference
+    elif width < height:
+        bounding_box[2] += difference
+        bounding_box[0] -= difference
+    image = image.crop(bounding_box)
+
+    return image.resize((64, 64)).convert('RGB')
+
+
 options = RGBMatrixOptions()
 options.rows = 64
 options.cols = 64
@@ -45,7 +62,8 @@ try:
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_len = graphics.DrawText(offscreen_canvas, font, pos, 120, textColor, name)
-        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, Image.open(io.BytesIO(pull_picture(pokemon['name']+'.png'))).resize((64, 64)).convert('RGB'))
+
+        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
         synchronizer_len = max(name_len, desc_len)
 
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
