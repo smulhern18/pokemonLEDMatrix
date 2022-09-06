@@ -43,6 +43,21 @@ def pokemonImageResizing(image_name: str) -> Image:
 
     return image.resize((64, 64)).convert('RGB')
 
+def generateTextImages(name, desc) -> (Image, Image):
+    name_img = Image.new('RGB', (6*len(name),12), color=(0, 0, 0))
+
+    fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
+    d = ImageDraw.Draw(name_img)
+    d.text((0, 0), name, font=fnt, fill=(255, 255, 255))
+
+    desc_img = Image.new('RGB', (6*len(desc),12), color=(0, 0, 0))
+
+    fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
+    d = ImageDraw.Draw(desc_img)
+    d.text((0, 0), desc, font=fnt, fill=(255, 255, 255))
+
+    return name_img, desc_img
+
 
 options = RGBMatrixOptions()
 options.rows = 64
@@ -72,20 +87,27 @@ try:
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_len = graphics.DrawText(offscreen_canvas, font, pos, 120, textColor, name)
+        name_img, desc_img = generateTextImages(name, desc)
 
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
         synchronizer_len = max(name_len, desc_len)
 
+        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
+        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
+
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
-        pos -= 1
+        pos += 1
 
-        if pos + synchronizer_len + 1 < 0:
-            pos = offscreen_canvas.width
+        if synchronizer_len + 1 < pos:
+            pos = 0
             cycles += 1
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
+
+        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 84, name_img)
+        offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
 
         time.sleep(0.05)
 
