@@ -44,6 +44,7 @@ try:
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_len = graphics.DrawText(offscreen_canvas, font, pos, 120, textColor, name)
+        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, Image.open(io.BytesIO(pull_picture(pokemon['name']+'.png'))).resize((64, 64).convert('RGB')))
         synchronizer_len = max(name_len, desc_len)
 
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
