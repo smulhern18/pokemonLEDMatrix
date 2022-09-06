@@ -11,10 +11,8 @@ Attribution: https://github.com/rogerdahl/ssd1306/blob/master/examples/bounce.py
 import io
 import random
 import time
-from luma.emulator.device import pygame
 from PIL import ImageFont, Image, ImageDraw
-from luma.core.render import canvas
-from luma.core.image_composition import ImageComposition, ComposableImage
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 from databaseHandler import pull_random_pokemon, pull_picture
 
@@ -124,49 +122,43 @@ def make_font():
     return ImageFont.truetype(font_path, 12)
 
 
-device = pygame(width=64, height=128)
+options = RGBMatrixOptions()
+options.rows = 64
+options.cols = 64
+options.chain_length = 2
+options.pixel_mapper_config = 'Rotate:90'
 
-image_composition = ImageComposition(device)
+matrix = RGBMatrix(options = options)
 
+
+offscreen_canvas = matrix.CreateFrameCanvas()
+font = graphics.Font()
+font.LoadFont("./Anonymous_Pro.tff")
+font.height = 12
+textColor = graphics.Color(255, 255, 255)
 
 try:
+    pos = 0
+    cycles = 0
+    pokemon = pull_random_pokemon()
     while True:
         secondary_type = None
-        pokemon = pull_random_pokemon()
-        synchroniser = Synchroniser()
         desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
+        desc_len = graphics.DrawText(offscreen_canvas, font, pos, 66, textColor, desc)
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
-        poke_name = ComposableImage(TextImage(device, name, make_font()).image, position=(2, 64))
-        poke_image = ComposableImage(Image.open(io.BytesIO(pull_picture(pokemon['name']+'.png'))).resize((64, 64)), position=(0, 0))
-        poke_description = ComposableImage(TextImage(device, desc, make_font()), position=(2, 108))
-        if pokemon['secondary_type']:
-            primary = ComposableImage(Image.open(io.BytesIO(pull_picture(pokemon['primary_type']+'.png'))), position=(4, 80))
-            secondary = ComposableImage(Image.open(io.BytesIO(pull_picture(pokemon['secondary_type']+'.png'))), position=(36, 80))
-            secondary_type = Scroller(image_composition, secondary, 50, synchroniser)
-        else:
-            primary = ComposableImage(Image.open(io.BytesIO(pull_picture(pokemon['primary_type']+'.png'))), position=(20, 80))
-        primary_type = Scroller(image_composition, primary, 50, synchroniser)
-        name = Scroller(image_composition, poke_name, 50, synchroniser)
-        image = Scroller(image_composition, poke_image, 50, synchroniser)
-        description = Scroller(image_composition, poke_description, 50, synchroniser, speed=0.66)
+        name_len = graphics.DrawText(offscreen_canvas, font, pos, 120, textColor, name)
+        synchronizer_len = max(name_len, desc_len)
 
-        cycles = 0
 
-        while cycles < 5:
-            name.tick()
-            image.tick()
-            primary_type.tick()
-            description.tick()
-            if secondary_type:
-                secondary_type.tick()
-            time.sleep(0.025)
-            cycles = name.get_cycles()
+        pos += 1
 
-            with canvas(device, background=image_composition()) as draw:
-                image_composition.refresh()
-
-        del name
+        if pos > synchronizer_len+1:
+            pos = 0
+            cycles += 1
+            if cycles > 4:
+                pokemon = pull_random_pokemon()
+                cycles = 0
 
 except KeyboardInterrupt:
     pass
