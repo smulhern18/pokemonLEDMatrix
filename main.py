@@ -90,6 +90,9 @@ try:
         name_img, desc_img = generateTextImages(name, desc)
 
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
+        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 84, name_img)
+        offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
+
         synchronizer_len = max(name_len, desc_len)
 
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
@@ -102,9 +105,6 @@ try:
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
-
-        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 84, name_img)
-        offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
 
         time.sleep(0.05)
 
