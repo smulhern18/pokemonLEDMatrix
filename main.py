@@ -18,7 +18,7 @@ from databaseHandler import pull_random_pokemon, pull_picture
 
 
 def pokemonImageResizing(image_name: str) -> Image:
-    image = Image.open(io.BytesIO(pull_picture(image_name))).resize((64, 64))
+    image = pull_picture(image_name).resize((64, 64))
     bounding_box = image.getbbox()
     width = bounding_box[2] - bounding_box[0]
     height = bounding_box[3] - bounding_box[1]
@@ -44,13 +44,13 @@ def pokemonImageResizing(image_name: str) -> Image:
     return image.resize((64, 64)).convert('RGB')
 
 def generateTextImages(name, desc) -> (Image, Image):
-    name_img = Image.new('RGB', (6*len(name), 12), color=(0, 0, 0))
+    name_img = Image.new('RGB', (7*len(name), 12), color=(0, 0, 0))
 
     fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
     d = ImageDraw.Draw(name_img)
     d.text((0, 0), name, font=fnt, fill=(255, 255, 255))
 
-    desc_img = Image.new('RGB', (6*len(desc), 12), color=(0, 0, 0))
+    desc_img = Image.new('RGB', (7*len(desc), 12), color=(0, 0, 0))
 
     fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
     d = ImageDraw.Draw(desc_img)
@@ -87,16 +87,29 @@ try:
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_img, desc_img = generateTextImages(name, desc)
 
-        name_img = name_img.crop((pos, 0, pos + 64, name_img.height))
+        name_img = name_img.crop((pos, 0, pos+64, name_img.height))
         dsec_img = desc_img.crop((pos, 0, pos+64, desc_img.height))
-        print("before canvas")
-        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
-        offscreen_canvas.SetPixelsPillow(0, 72, 64, 84, name_img)
-        offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img)
+        pokemon_image = pokemonImageResizing(pokemon['name'] + '.png')
+        primary_type = pull_picture(pokemon['primary_type'])
+        secondary_type = None
+        if pokemon['secondary_type']:
+            secondary_type = pull_picture(pokemon['secondary_type'])
 
-        synchronizer_len = max(name_img.width, desc_img.width)
+        full_image = Image.new('RGB', (64, 128), color=(0, 0, 0))
+
+        full_image.paste(pokemon_image, (0, 0))
+        full_image.paste(name_img, (2, 64))
+        full_image.paste(desc_img, (2, 108))
+        if secondary_type:
+            full_image.paste(primary_type, (4, 80))
+            full_image.paste(secondary_type, (36, 80))
+        else:
+            full_image.paste(primary_type, (20, 80))
+
+        offscreen_canvas.SetPixelsPillow(0, 0, 64, 128, full_image)
+
+        synchronizer_len = max(len(name)*7, len(desc)*7)
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
-        print("line 97")
         pos -= 1
 
         if -(synchronizer_len + 1) > pos:
@@ -105,7 +118,6 @@ try:
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
-        print("line 107")
         time.sleep(0.05)
 
 except KeyboardInterrupt:

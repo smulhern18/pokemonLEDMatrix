@@ -1,6 +1,8 @@
+import io
 import os
 
 import gridfs
+from PIL import Image
 from pymongo import MongoClient
 
 mongo_username = os.environ['mongo_username']
@@ -13,7 +15,7 @@ coll = dev_db['pokemon']
 
 
 def pull_picture(picture_name: str):
-    return fs.find_one({'filename': picture_name}).read()
+    return Image.open(io.BytesIO(fs.find_one({'filename': picture_name}).read()))
 
 
 def pull_random_pokemon():
