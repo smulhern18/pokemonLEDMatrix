@@ -44,13 +44,13 @@ def pokemonImageResizing(image_name: str) -> Image:
     return image.resize((64, 64)).convert('RGB')
 
 def generateTextImages(name, desc) -> (Image, Image):
-    name_img = Image.new('RGB', (6*len(name),12), color=(0, 0, 0))
+    name_img = Image.new('RGB', (6*len(name), 12), color=(0, 0, 0))
 
     fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
     d = ImageDraw.Draw(name_img)
     d.text((0, 0), name, font=fnt, fill=(255, 255, 255))
 
-    desc_img = Image.new('RGB', (6*len(desc),12), color=(0, 0, 0))
+    desc_img = Image.new('RGB', (6*len(desc), 12), color=(0, 0, 0))
 
     fnt = ImageFont.truetype('./Anonymous_Pro.ttf', 12)
     d = ImageDraw.Draw(desc_img)
@@ -92,8 +92,9 @@ try:
         offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img.crop((pos, 0, pos+64, desc_img.height)))
 
         synchronizer_len = max(name_img.width, desc_img.width)
+        print("before canvas")
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
-
+        print("line 97")
         pos -= 1
 
         if -(synchronizer_len + 1) > pos:
