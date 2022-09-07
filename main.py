@@ -92,9 +92,6 @@ try:
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
         synchronizer_len = max(name_len, desc_len)
 
-        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
-        offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
-
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
         pos += 1
