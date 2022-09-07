@@ -98,8 +98,8 @@ try:
         full_image = Image.new('RGB', (64, 128), color=(0, 0, 0))
 
         full_image.paste(pokemon_image, (0, 0))
-        full_image.paste(name_img, (2, 64))
-        full_image.paste(desc_img, (2, 108))
+        full_image.paste(name_img, (0, 64))
+        full_image.paste(desc_img, (0, 108))
         if secondary_type:
             full_image.paste(primary_type, (4, 80))
             full_image.paste(secondary_type, (36, 80))
@@ -118,7 +118,7 @@ try:
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
-        time.sleep(0.1)
+        time.sleep(1)
 
 except KeyboardInterrupt:
     pass
