@@ -88,7 +88,7 @@ try:
         name_img, desc_img = generateTextImages(name, desc)
 
         name_img = name_img.crop((pos, 0, pos+64, name_img.height))
-        dsec_img = desc_img.crop((pos, 0, pos+64, desc_img.height))
+        desc_img = desc_img.crop((pos, 0, pos+64, desc_img.height))
         pokemon_image = pokemonImageResizing(pokemon['name'] + '.png')
         primary_type = pull_picture(pokemon['primary_type']+'.png')
         secondary_type: Image
