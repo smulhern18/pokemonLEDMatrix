@@ -119,7 +119,7 @@ try:
                 pokemon = pull_random_pokemon()
                 cycles = 0
                 desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
-        time.sleep(1)
+        time.sleep(0.05)
 
 except KeyboardInterrupt:
     pass
