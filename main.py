@@ -94,7 +94,7 @@ try:
         offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
 
         synchronizer_len = max(name_len, desc_len)
-
+        print("line 97")
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
         pos -= 1
