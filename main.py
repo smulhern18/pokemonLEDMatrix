@@ -90,8 +90,8 @@ try:
         name_img, desc_img = generateTextImages(name, desc)
 
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
-        offscreen_canvas.SetPixelsPillow(pos, 72, 64, 84, name_img)
-        offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
+        offscreen_canvas.SetPixelsPillow(0, 72, 64, 84, name_img.crop((pos, 0, pos+64, name_img.height)))
+        offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img.crop((pos, 0, pos+64, desc_img.height)))
 
         synchronizer_len = max(name_len, desc_len)
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
