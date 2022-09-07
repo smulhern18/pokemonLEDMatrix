@@ -83,17 +83,15 @@ try:
         offscreen_canvas.Clear()
         secondary_type = None
         desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
-        desc_len = graphics.DrawText(offscreen_canvas, font, pos, 66, textColor, desc)
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
-        name_len = graphics.DrawText(offscreen_canvas, font, pos, 120, textColor, name)
         name_img, desc_img = generateTextImages(name, desc)
 
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
         offscreen_canvas.SetPixelsPillow(0, 72, 64, 84, name_img.crop((pos, 0, pos+64, name_img.height)))
         offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img.crop((pos, 0, pos+64, desc_img.height)))
 
-        synchronizer_len = max(name_len, desc_len)
+        synchronizer_len = max(name_img.width, desc_img.width)
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
         pos -= 1
