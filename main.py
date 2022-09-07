@@ -110,15 +110,15 @@ try:
 
         synchronizer_len = max(len(name)*7, len(desc)*7)
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
-        pos -= 1
+        pos += 1
 
-        if -(synchronizer_len + 1) > pos:
+        if synchronizer_len + 1 < pos:
             pos = 0
             cycles += 1
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
-        time.sleep(0.05)
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
     pass
