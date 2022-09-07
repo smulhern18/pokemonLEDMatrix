@@ -79,10 +79,10 @@ try:
     pos = 0
     cycles = 0
     pokemon = pull_random_pokemon()
+    desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
     while True:
         offscreen_canvas.Clear()
         secondary_type = None
-        desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
         name = f"{pokemon['name']}         "
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_img, desc_img = generateTextImages(name, desc)
@@ -118,6 +118,7 @@ try:
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
+                desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
         time.sleep(1)
 
 except KeyboardInterrupt:
