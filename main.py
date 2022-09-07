@@ -66,6 +66,7 @@ options.chain_length = 2
 options.pixel_mapper_config = 'Rotate:90'
 options.drop_privileges = False
 options.limit_refresh_rate_hz = 120
+gpio_mapping = 'adafruit-hat'
 
 matrix = RGBMatrix(options=options)
 
@@ -115,7 +116,7 @@ try:
         if synchronizer_len + 1 < pos:
             pos = 0
             cycles += 1
-            if cycles > 4:
+            if cycles > 2:
                 pokemon = pull_random_pokemon()
                 cycles = 0
                 desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
