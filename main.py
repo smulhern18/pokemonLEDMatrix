@@ -90,10 +90,10 @@ try:
         name_img = name_img.crop((pos, 0, pos+64, name_img.height))
         dsec_img = desc_img.crop((pos, 0, pos+64, desc_img.height))
         pokemon_image = pokemonImageResizing(pokemon['name'] + '.png')
-        primary_type = pull_picture(pokemon['primary_type'])
+        primary_type = pull_picture(pokemon['primary_type']+'.png')
         secondary_type: Image
         if pokemon['secondary_type']:
-            secondary_type = pull_picture(pokemon['secondary_type'])
+            secondary_type = pull_picture(pokemon['secondary_type']+'.png')
 
         full_image = Image.new('RGB', (64, 128), color=(0, 0, 0))
 
