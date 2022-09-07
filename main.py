@@ -76,7 +76,7 @@ font.LoadFont("./Anonymous_Pro.ttf")
 textColor = graphics.Color(255, 255, 255)
 
 try:
-    pos = offscreen_canvas.width
+    pos = 0
     cycles = 0
     pokemon = pull_random_pokemon()
     while True:
@@ -94,7 +94,6 @@ try:
         offscreen_canvas.SetPixelsPillow(pos, 100, 64, 112, desc_img)
 
         synchronizer_len = max(name_len, desc_len)
-        print("line 97")
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
         pos -= 1
@@ -105,7 +104,7 @@ try:
             if cycles > 4:
                 pokemon = pull_random_pokemon()
                 cycles = 0
-
+        print("line 107")
         time.sleep(0.05)
 
 except KeyboardInterrupt:
