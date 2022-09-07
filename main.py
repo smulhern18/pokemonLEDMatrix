@@ -94,9 +94,9 @@ try:
 
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
 
-        pos += 1
+        pos -= 1
 
-        if synchronizer_len + 1 < pos:
+        if -(synchronizer_len + 1) > pos:
             pos = 0
             cycles += 1
             if cycles > 4:
