@@ -87,13 +87,14 @@ try:
         name = (name * (len(desc)//len(name) + 1)).strip()
         name_img, desc_img = generateTextImages(name, desc)
 
+        name_img = name_img.crop((pos, 0, pos + 64, name_img.height))
+        dsec_img = desc_img.crop((pos, 0, pos+64, desc_img.height))
+        print("before canvas")
         offscreen_canvas.SetPixelsPillow(0, 0, 64, 64, pokemonImageResizing(pokemon['name'] + '.png'))
-        offscreen_canvas.SetPixelsPillow(0, 72, 64, 84, name_img.crop((pos, 0, pos+64, name_img.height)))
-        print("before picture manipulation")
-        offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img.crop((pos, 0, pos+64, desc_img.height)))
+        offscreen_canvas.SetPixelsPillow(0, 72, 64, 84, name_img)
+        offscreen_canvas.SetPixelsPillow(0, 100, 64, 112, desc_img)
 
         synchronizer_len = max(name_img.width, desc_img.width)
-        print("before canvas")
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
         print("line 97")
         pos -= 1
