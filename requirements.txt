@@ -1,0 +1,5 @@
+fastapi
+Pillow
+pymongo
+uvicorn
+argparse
