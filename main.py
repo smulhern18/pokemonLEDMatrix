@@ -2,8 +2,9 @@ if __name__ == "__main__":
 
     import uvicorn
     import argparse
-    from app import app
+    from app import app, rgbController
     from app import routes
+    from multiprocessing import Process
 
     parser = argparse.ArgumentParser()
 
@@ -20,5 +21,6 @@ if __name__ == "__main__":
     if args.ip:
         host = str(args.ip)
 
+    p = Process(target=rgbController)
 
     uvicorn.run(app, host=host, port=port)

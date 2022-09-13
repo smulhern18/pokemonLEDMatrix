@@ -13,8 +13,6 @@ templates = Jinja2Templates(directory="pages")
 if __name__ == "__main__":
     logging.info("Starting new thread")
 
-p = Process(target=rgbController)
-
 
 @app.get('/', response_class=HTMLResponse)
 def main(request: Request):
