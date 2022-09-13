@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add to the Queue!</title>
+</head>
+<body>
+<h1>Hello!</h1>
+<form action="/queue" method="post">
+    <input list="pokemon_names" placeholder="Type the name of a Pokemon" type="search" name="pokemon" value="Random">
+    <datalist id="pokemon_names">
+        {%for poke in pokemon_names%}
+        <option>{{poke}}</option>
+        {%endfor%}}
+    </datalist>
+    <br>
+    <input type="submit">
+</form>
+
+
+</body>
+</html>

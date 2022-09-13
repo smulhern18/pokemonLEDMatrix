@@ -20,3 +20,9 @@ def pull_picture(picture_name: str):
 
 def pull_random_pokemon():
     return list(coll.aggregate([{'$sample': {'size': 1}}]))[0]
+
+
+def pull_pokemon(filters=None):
+    if filters is None:
+        filters = {}
+    return list(coll.find(filters))
