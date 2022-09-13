@@ -3,3 +3,5 @@ Pillow
 pymongo
 uvicorn
 argparse
+jinja2
+python-multipart
