@@ -59,7 +59,7 @@ def rgbController():
     options.pixel_mapper_config = 'Rotate:90'
     options.drop_privileges = False
     options.limit_refresh_rate_hz = 120
-    options.gpio_mapping = 'adafruit-hat-pwm'
+    options.hardware_mapping = 'adafruit-hat-pwm'
 
     matrix = RGBMatrix(options=options)
 
