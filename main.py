@@ -1,4 +1,4 @@
 if __name__ == "__main__":
-    from app import rgbController
+    from app.matrixHandler import rgbController
 
     rgbController()
