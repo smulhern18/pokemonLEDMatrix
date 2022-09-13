@@ -108,13 +108,9 @@ def rgbController():
                 pos = 0
                 cycles += 1
                 if cycles > 2:
-                    from app import q
-                    if not q.empty():
-                        pokemon = q.get()
-                    else:
-                        pokemon = pull_random_pokemon()
+                    pokemon = pull_random_pokemon()
                     cycles = 0
-                    desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else ''
+                    desc = random.sample(pokemon['descriptions'], 1)[0] if pokemon['descriptions'] != [] else '        ' * 2
             time.sleep(0.05)
 
     except KeyboardInterrupt:
